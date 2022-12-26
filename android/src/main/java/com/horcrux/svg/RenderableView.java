@@ -498,7 +498,7 @@ public abstract class RenderableView extends VirtualView implements ReactHitSlop
   boolean setupFillPaint(Paint paint, float opacity) {
     if (fill != null && fill.size() > 0) {
       paint.reset();
-      paint.setFlags(Paint.ANTI_ALIAS_FLAG | Paint.DEV_KERN_TEXT_FLAG | Paint.SUBPIXEL_TEXT_FLAG);
+      paint.setFlags(Paint.DITHER_FLAG | Paint.ANTI_ALIAS_FLAG | Paint.DEV_KERN_TEXT_FLAG | Paint.SUBPIXEL_TEXT_FLAG);
       paint.setStyle(Paint.Style.FILL);
       setupPaint(paint, opacity, fill);
       return true;
@@ -517,7 +517,7 @@ public abstract class RenderableView extends VirtualView implements ReactHitSlop
       return false;
     }
 
-    paint.setFlags(Paint.ANTI_ALIAS_FLAG | Paint.DEV_KERN_TEXT_FLAG | Paint.SUBPIXEL_TEXT_FLAG);
+    paint.setFlags(Paint.DITHER_FLAG | Paint.ANTI_ALIAS_FLAG | Paint.DEV_KERN_TEXT_FLAG | Paint.SUBPIXEL_TEXT_FLAG);
     paint.setStyle(Paint.Style.STROKE);
     paint.setStrokeCap(strokeLinecap);
     paint.setStrokeJoin(strokeLinejoin);
