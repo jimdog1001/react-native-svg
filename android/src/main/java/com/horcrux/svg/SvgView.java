@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import android.graphics.PaintFlagsDrawFilter;
 
 /** Custom {@link View} implementation that draws an RNSVGSvg React view and its children. */
 @SuppressLint("ViewConstructor")
@@ -119,6 +120,7 @@ public class SvgView extends ReactViewGroup implements ReactCompoundView, ReactC
       mBitmap = drawOutput();
     }
     if (mBitmap != null) {
+      canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.DITHER_FLAG));
       canvas.drawBitmap(mBitmap, 0, 0, null);
       if (toDataUrlTask != null) {
         toDataUrlTask.run();
@@ -276,7 +278,19 @@ public class SvgView extends ReactViewGroup implements ReactCompoundView, ReactC
     if (invalid) {
       return null;
     }
-    Bitmap bitmap = Bitmap.createBitmap((int) width, (int) height, Bitmap.Config.ARGB_8888);
+    Bitmap bitmap;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            bitmap = Bitmap.createBitmap(
+                    (int) width,
+                    (int) height,
+                    Bitmap.Config.RGBA_F16);
+        } else {
+            bitmap = Bitmap.createBitmap(
+                    (int) width,
+                    (int) height,
+                    Bitmap.Config.ARGB_8888);
+        }
+
 
     drawChildren(new Canvas(bitmap));
     return bitmap;
